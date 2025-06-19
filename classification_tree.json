@@ -1,0 +1,5 @@
+{
+  "Financial": ["Budget", "Invoice", "Accounts", "Balance"],
+  "Legal": ["Contract", "Legislation", "Law", "Court"],
+  "Technical": ["Program", "Computer", "System", "Technology"]
+}

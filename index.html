@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8" />
+    <title>Login Google Drive</title>
+    <style>
+        button {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            gap: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease;
+        }
+        button:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        button img {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h1>Upload files to Google Drive</h1>
+        <br />
+        <button onclick="window.location.href='drive_callback.php'" style="display:flex; align-items:center; gap:8px;">
+            <svg width="20" height="20" viewBox="0 0 533.5 544.3" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#4285F4"
+                    d="M533.5 278.4c0-17.7-1.5-35.1-4.4-51.9H272v98.3h146.9c-6.3 34.1-25.3 62.9-54 82v68h87.1c50.8-46.8 80-115.7 80-196.4z" />
+                <path fill="#34A853"
+                    d="M272 544.3c73.7 0 135.6-24.3 180.8-65.8l-87.1-68c-24.2 16.3-55.3 25.9-93.7 25.9-72 0-133-48.6-154.9-114.1H27.6v71.7C72.3 488 165.8 544.3 272 544.3z" />
+                <path fill="#FBBC05"
+                    d="M117.1 324.3c-5.6-16.9-8.8-34.9-8.8-53.3s3.2-36.4 8.8-53.3v-71.7H27.6C10 219.3 10 325 27.6 401.2l89.5-76.9z" />
+                <path fill="#EA4335"
+                    d="M272 107.7c39.9 0 75.8 13.7 104.1 40.6l78.1-78.1C402.6 24.8 345.7 0 272 0 165.8 0 72.3 56.3 27.6 140.4l89.5 76.9c21.9-65.5 82.9-114.1 154.9-114.1z" />
+            </svg>
+            Login Google Drive
+        </button>
+    </center>
+</body>
+</html>

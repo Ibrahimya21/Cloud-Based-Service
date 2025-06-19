@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>رفع وتحليل مستندات PDF وWord</title>
+  <style>
+    body { font-family: Arial, sans-serif; direction: rtl; margin: 20px; }
+    #results { margin-top: 20px; }
+    mark { background-color: yellow; }
+  </style>
+</head>
+<body>
+  <h1>رفع وتحليل مستندات PDF وWord</h1>
+  <input type="file" id="file_input" multiple accept=".pdf,.doc,.docx" />
+  <button id="upload_btn">رفع الملفات</button>
+  <h2>بحث في المستندات</h2>
+  <input type="text" id="search_text" placeholder="أدخل نص البحث" />
+  <button id="search_btn">بحث</button>
+  <h2>فرز حسب العنوان</h2>
+  <button id="sort_btn">فرز المستندات</button>
+  <h2>تصنيف المستندات</h2>
+  <button id="classify_btn">تصنيف المستندات</button>
+  <div id="stats"></div>
+  <div id="results"></div>
+  <script>
+       document.getElementById('upload_btn').onclick = () => {
+      const files = document.getElementById('file_input').files;
+      if (files.length === 0) {
+        alert('يرجى اختيار ملفات أولاً');
+        return;
+      }
+      const formData = new FormData();
+      for(let i=0; i < files.length; i++) {
+        formData.append('files[]', files[i]);
+      }
+      document.getElementById('stats').textContent = 'جاري رفع الملفات...';
+      fetch('upload.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById('stats').textContent = 'تم رفع الملفات بنجاح إلى Google Drive';
+          console.log(data.drive); // بيانات الملفات المرفوعة (مثلاً id الملفات)
+        } else {
+          document.getElementById('stats').textContent = 'فشل رفع الملفات: ' + data.message;
+        }
+      })
+      .catch(err => {
+        document.getElementById('stats').textContent = 'خطأ في الاتصال بالخادم';
+        console.error(err);
+      });
+    };
+    document.getElementById('sort_btn').onclick = () => {
+      fetch('process.php?action=sort')
+        .then(res => res.json()).then(data => {
+          if(data.success){ displayResults(data.documents); displayStats(data.stats); }
+        });
+    };
+
+    document.getElementById('search_btn').onclick = () => {
+      const text = document.getElementById('search_text').value.trim();
+      if(!text){ alert('أدخل نصًا'); return; }
+      fetch('process.php?action=search&text=' + encodeURIComponent(text))
+        .then(res => res.json()).then(data => {
+          if(data.success){ displayResults(data.documents); displayStats(data.stats); }
+        });
+    };
+
+    document.getElementById('classify_btn').onclick = () => {
+      fetch('process.php?action=classify')
+        .then(res => res.json()).then(data => {
+          if(data.success){ displayResults(data.documents); displayStats(data.stats); }
+        });
+    };
+
+    function displayResults(docs){
+      const container = document.getElementById('results'); container.innerHTML = '';
+      if(docs.length === 0){ container.innerHTML = '<p>لا توجد مستندات</p>'; return; }
+      docs.forEach(doc => {
+        const div = document.createElement('div'); div.style.border = "1px solid #ccc"; div.style.margin = "5px"; div.style.padding = "5px";
+        const link = document.createElement('a');
+        link.href = 'uploads/' + encodeURIComponent(doc.filename);
+        link.target = '_blank'; link.textContent = doc.title || doc.filename;
+        div.appendChild(link);
+        if(doc.highlightedContent){ const p = document.createElement('p'); p.innerHTML = doc.highlightedContent; div.appendChild(p); }
+        if(doc.classification){ const c = document.createElement('p'); c.textContent = 'تصنيف: ' + doc.classification; div.appendChild(c); }
+        container.appendChild(div);
+      });
+    }
+
+    function displayStats(stats){
+      const container = document.getElementById('stats');
+      container.innerHTML = `<h3>الإحصائيات</h3><p>عدد: ${stats.count}</p><p>الحجم: ${(stats.totalSize / 1024).toFixed(2)} ك.ب</p><p>المدة: ${stats.elapsed} ثانية</p>`;
+    }
+  </script>
+</body>
+</html>
