@@ -1,7 +1,7 @@
-Steps to run the progran
-1- Install Xampp and running Apache Server
-2- Install Composer if it is not installed.
-3- Change the name of the parent proiect folder to
-document_manager_project_final
-4- Run the cmd inside the project wrihte composer update. ==> If you en counter a problem in the program such as an error or something similar.
+Steps to Run the Program
+1 - Download the project from the link https://github.com/Ibrahimya21/Cloud-Based-Service/archive/refs/heads/main.zip
+2 - Rename the parent project folder to document_manager_project_final (important step)
+3 - Install Xampp and run the Apache server
+4 - Install Composer if it is not installed.
+5 - Run a command prompt within the project and type composer update. If you encounter a problem with the program, such as an error or similar, contact Composer.
 
